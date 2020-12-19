@@ -1,6 +1,5 @@
 package shipping;
 
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
@@ -39,4 +38,5 @@ public class Shipping {
                 ", userId=" + userId +
                 '}';
     }
+
 }
