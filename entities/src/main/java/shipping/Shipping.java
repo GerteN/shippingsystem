@@ -18,16 +18,18 @@ public class Shipping {
         return orderId;
     }
 
-    public void setOrderId(Integer orderId) {
+    public Shipping setOrderId(Integer orderId) {
         this.orderId = orderId;
+        return this;
     }
 
     public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public Shipping setUserId(Integer userId) {
         this.userId = userId;
+        return this;
     }
 
     @Override
