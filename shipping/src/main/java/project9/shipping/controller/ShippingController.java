@@ -17,6 +17,8 @@ public class ShippingController {
     
     @GetMapping(value="/{id}")
     public @ResponseBody
-    Shipping getShipping(@PathVariable Integer UserId){ return service.getShipping(UserId); }
+    Shipping getShipping(@PathVariable Integer userId){
+        return service.getShipping(userId);
+    }
     
 }

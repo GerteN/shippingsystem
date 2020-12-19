@@ -7,12 +7,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import project9.shipping.data.ShippingRepository;
 import shipping.Shipping;
 
+import javax.transaction.Transactional;
+
 @Service
+@Transactional
 public class ShippingService {
 
     @Autowired
     ShippingRepository repository;
 
 
-    public Shipping getShipping(Integer UserId){ return repository.findById(UserId).get();}
+    public Shipping getShipping(Integer userId){
+        return repository.findById(userId).get();
+    }
 }
