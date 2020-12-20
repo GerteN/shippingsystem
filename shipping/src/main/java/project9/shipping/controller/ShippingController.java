@@ -13,7 +13,7 @@ public class ShippingController {
     @Autowired
     ShippingService service;
     
-    @GetMapping(value="/{id}")
+    @GetMapping(value="/userId/{userId}")
     public @ResponseBody
     Shipping getShipping(@PathVariable Integer userId){
         return service.getShipping(userId);
