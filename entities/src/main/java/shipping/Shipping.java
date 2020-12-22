@@ -1,8 +1,11 @@
 package shipping;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import order.Order;
+import product.Product;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 public class Shipping {
@@ -10,8 +13,10 @@ public class Shipping {
     @Id
     private Integer shippingId;
 
-    @NotNull(message = "The userID cannot be blank!")
-    private Integer userId;
+    private Integer order_id;
+
+    @OneToMany
+    private List<Product> products;
 
     @NotNull(message = "The shippingAddress cannot be blank!")
     private String shippingAddress;
@@ -20,15 +25,6 @@ public class Shipping {
 
     public Shipping setShippingId(Integer shippingId) {
         this.shippingId = shippingId;
-        return this;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public Shipping setUserId(Integer userId) {
-        this.userId = userId;
         return this;
     }
 
@@ -43,7 +39,6 @@ public class Shipping {
     public String toString() {
         return "Shipping{" +
                 "shippingId=" + shippingId +
-                ", userId=" + userId +
                 ", shippingAddress='" + shippingAddress + '\'' +
                 '}';
     }
