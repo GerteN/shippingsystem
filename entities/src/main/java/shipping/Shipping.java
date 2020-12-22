@@ -8,17 +8,18 @@ import javax.validation.constraints.NotNull;
 public class Shipping {
 
     @Id
-    private Integer orderId;
+    private Integer shippingId;
 
     @NotNull(message = "The userID cannot be blank!")
     private Integer userId;
 
-    public Integer getOrderId() {
-        return orderId;
-    }
+    @NotNull(message = "The shippingAddress cannot be blank!")
+    private String shippingAddress;
 
-    public Shipping setOrderId(Integer orderId) {
-        this.orderId = orderId;
+    public Integer getShippingId() { return shippingId; }
+
+    public Shipping setShippingId(Integer shippingId) {
+        this.shippingId = shippingId;
         return this;
     }
 
@@ -31,11 +32,19 @@ public class Shipping {
         return this;
     }
 
+    public String getShippingAddress() { return shippingAddress; }
+
+    public Shipping setShippingAddress(String shippingAddress) {
+        this.shippingAddress = shippingAddress;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Shipping{" +
-                "orderId=" + orderId +
+                "shippingId=" + shippingId +
                 ", userId=" + userId +
+                ", shippingAddress='" + shippingAddress + '\'' +
                 '}';
     }
 

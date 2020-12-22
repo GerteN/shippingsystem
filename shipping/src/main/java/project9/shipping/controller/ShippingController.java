@@ -6,17 +6,27 @@ import org.springframework.web.bind.annotation.*;
 import project9.shipping.service.ShippingService;
 import shipping.Shipping;
 
+import java.util.Optional;
+
 @Controller
-@RequestMapping(path="/shipping")
+@RequestMapping(path="/ss")
 public class ShippingController {
 
     @Autowired
     ShippingService service;
     
-    @GetMapping(value="/userId/{userId}")
+    @GetMapping(value="/shipping/{shippingId}")
     public @ResponseBody
-    Shipping getShipping(@PathVariable Integer userId){
-        return service.getShipping(userId);
+    Optional<Shipping> getShipping(@PathVariable Integer shippingId, @RequestHeader("X-User-ID") Integer userId){
+        return service.getShipping(shippingId, userId);
     }
+
+    /*
+    @GetMapping(value="/shippings")
+    public @ResponseBody
+    Iterable<Shipping> getAll(){
+        return service.getAll();
+    }
+    */
     
 }
