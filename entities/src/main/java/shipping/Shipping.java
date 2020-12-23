@@ -1,5 +1,6 @@
 package shipping;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
@@ -8,17 +9,43 @@ import javax.validation.constraints.NotNull;
 public class Shipping {
 
     @Id
-    private Integer orderId;
+    private Integer shippingId;
+
+    @NotNull(message = "The order_id cannot be blank!")
+    @Column(unique = true)
+    private Integer order_id;
 
     @NotNull(message = "The userID cannot be blank!")
     private Integer userId;
 
-    public Integer getOrderId() {
-        return orderId;
+    @NotNull(message = "The shippingAddress cannot be blank!")
+    private String shippingAddress;
+
+    /*@ElementCollection
+    private Map<Integer,Integer> products = new HashMap<Integer,Integer>();*/
+
+    @NotNull(message = "The status cannot be blank!")
+    private String status;
+
+    //@GeneratedValue(strategy= GenerationType.AUTO)
+    @NotNull(message = "The DDT cannot be blank!")
+    private Integer DDT;
+
+    public Integer getShippingId() {
+        return shippingId;
     }
 
-    public Shipping setOrderId(Integer orderId) {
-        this.orderId = orderId;
+    public Shipping setShippingId(Integer shippingId) {
+        this.shippingId = shippingId;
+        return this;
+    }
+
+    public Integer getOrder_id() {
+        return order_id;
+    }
+
+    public Shipping setOrder_id(Integer order_id) {
+        this.order_id = order_id;
         return this;
     }
 
@@ -31,11 +58,53 @@ public class Shipping {
         return this;
     }
 
+    public String getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public Shipping setShippingAddress(String shippingAddress) {
+        this.shippingAddress = shippingAddress;
+        return this;
+    }
+
+    /*
+    public Map<Integer, Integer> getProducts() {
+        return products;
+    }
+
+    public Shipping setProducts(Map<Integer, Integer> products) {
+        this.products = products;
+        return this;
+    }*/
+
+    public String getStatus() {
+        return status;
+    }
+
+    public Shipping setStatus(String status) {
+        this.status = status;
+        return this;
+    }
+
+    public Integer getDDT() {
+        return DDT;
+    }
+
+    public Shipping setDDT(Integer DDT) {
+        this.DDT = DDT;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Shipping{" +
-                "orderId=" + orderId +
+                "shippingId=" + shippingId +
+                ", order_id=" + order_id +
                 ", userId=" + userId +
+                ", shippingAddress='" + shippingAddress + '\'' +
+                //", products=" + products +
+                ", status='" + status + '\'' +
+                ", DDT=" + DDT +
                 '}';
     }
 
