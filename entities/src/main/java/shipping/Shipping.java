@@ -1,9 +1,10 @@
 package shipping;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.enterprise.inject.Default;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 public class Shipping {
@@ -15,19 +16,21 @@ public class Shipping {
     @Column(unique = true)
     private Integer order_id;
 
-    @NotNull(message = "The userID cannot be blank!")
+    @NotNull(message = "The userId cannot be blank!")
     private Integer userId;
 
     @NotNull(message = "The shippingAddress cannot be blank!")
     private String shippingAddress;
 
-    /*@ElementCollection
-    private Map<Integer,Integer> products = new HashMap<Integer,Integer>();*/
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @NotNull(message = "The products cannot be blank!")
+    @ElementCollection
+    private Map<Integer,Integer> products;
 
     @NotNull(message = "The status cannot be blank!")
     private String status;
 
-    //@GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     @NotNull(message = "The DDT cannot be blank!")
     private Integer DDT;
 
@@ -67,7 +70,6 @@ public class Shipping {
         return this;
     }
 
-    /*
     public Map<Integer, Integer> getProducts() {
         return products;
     }
@@ -75,7 +77,7 @@ public class Shipping {
     public Shipping setProducts(Map<Integer, Integer> products) {
         this.products = products;
         return this;
-    }*/
+    }
 
     public String getStatus() {
         return status;
@@ -102,7 +104,7 @@ public class Shipping {
                 ", order_id=" + order_id +
                 ", userId=" + userId +
                 ", shippingAddress='" + shippingAddress + '\'' +
-                //", products=" + products +
+                ", products=" + products +
                 ", status='" + status + '\'' +
                 ", DDT=" + DDT +
                 '}';

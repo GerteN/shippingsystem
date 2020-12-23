@@ -1,6 +1,8 @@
 package org.project9.shipping.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -24,12 +26,13 @@ public class ShippingService {
         return Optional.ofNullable(repository.findByShippingIdAndUserId(shippingId, userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
     }
 
-    public Iterable<Shipping> getAll(Integer userId) {
+
+    public Page<Shipping> getAll(Integer userId, Pageable pageable) {
         if(userId.equals(0))
-            return repository.findAll();
-        if(repository.findByUserId(userId).isEmpty())
+            return repository.findAll(pageable);
+        if(repository.findByUserId(userId, pageable).isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        return repository.findByUserId(userId);
+        return repository.findByUserId(userId, pageable);
     }
 
 }
