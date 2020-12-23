@@ -14,19 +14,17 @@ public class ShippingController {
 
     @Autowired
     ShippingService service;
-    
+
     @GetMapping(value="/shipping/{shippingId}")
     public @ResponseBody
     Optional<Shipping> getShipping(@PathVariable Integer shippingId, @RequestHeader("X-User-ID") Integer userId){
         return service.getShipping(shippingId, userId);
     }
 
-    /*
     @GetMapping(value="/shippings")
     public @ResponseBody
-    Iterable<Shipping> getAll(){
-        return service.getAll();
+    Iterable<Shipping> getAll(@RequestHeader("X-User-ID") Integer userId){
+        return service.getAll(userId);
     }
-    */
-    
+
 }

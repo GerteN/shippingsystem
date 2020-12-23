@@ -24,10 +24,12 @@ public class ShippingService {
         return Optional.ofNullable(repository.findByShippingIdAndUserId(shippingId, userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
     }
 
-    /*
-    public Iterable<Shipping> getAll(){
-        return repository.findAll();
+    public Iterable<Shipping> getAll(Integer userId) {
+        if(userId.equals(0))
+            return repository.findAll();
+        if(repository.findByUserId(userId).isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        return repository.findByUserId(userId);
     }
-    */
 
 }
