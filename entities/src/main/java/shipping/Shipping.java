@@ -1,9 +1,7 @@
 package shipping;
 
-import javax.enterprise.inject.Default;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.HashMap;
 import java.util.Map;
 
 @Entity
