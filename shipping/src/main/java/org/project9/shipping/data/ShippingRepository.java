@@ -1,4 +1,4 @@
-package project9.shipping.data;
+package org.project9.shipping.data;
 
 import org.springframework.data.repository.CrudRepository;
 import shipping.Shipping;
