@@ -26,8 +26,7 @@ public class ShippingService {
         return Optional.ofNullable(repository.findByShippingIdAndUserId(shippingId, userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
     }
 
-
-    public Page<Shipping> getAll(Integer userId, Pageable pageable) {
+    public Page<Shipping> getAll(Integer userId, Pageable pageable){
         if(userId.equals(0))
             return repository.findAll(pageable);
         if(repository.findByUserId(userId, pageable).isEmpty())
