@@ -18,13 +18,13 @@ public class ShippingController {
 
     @GetMapping(value="/shipping/{shippingId}")
     public @ResponseBody
-    Optional<Shipping> getShipping(@PathVariable Integer shippingId, @RequestHeader("X-User-ID") Integer userId){
+    Optional<Shipping> getShipping(@PathVariable Integer shippingId, @RequestHeader("X-User-ID") Integer userId) {
         return service.getShipping(shippingId, userId);
     }
 
     @GetMapping(value="/shippings")
     public @ResponseBody
-    Page<Shipping> getAll(@RequestHeader("X-User-ID") Integer userId, Pageable pageable){
+    Page<Shipping> getAll(@RequestHeader("X-User-ID") Integer userId, Pageable pageable) {
         return service.getAll(userId, pageable);
     }
 

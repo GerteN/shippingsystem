@@ -10,26 +10,24 @@ public class Shipping {
     @Id
     private Integer shippingId;
 
-    @NotNull(message = "The order_id cannot be blank!")
+    @NotNull(message = "The order ID cannot be blank!")
     @Column(unique = true)
     private Integer order_id;
 
-    @NotNull(message = "The userId cannot be blank!")
+    @NotNull(message = "The user ID cannot be blank!")
     private Integer userId;
 
-    @NotNull(message = "The shippingAddress cannot be blank!")
+    @NotNull(message = "The shipping address cannot be blank!")
     private String shippingAddress;
 
-    @GeneratedValue(strategy=GenerationType.AUTO)
     @NotNull(message = "The products cannot be blank!")
     @ElementCollection
-    private Map<Integer,Integer> products;
+    private Map<Integer, Integer> products;
 
     @NotNull(message = "The status cannot be blank!")
     private String status;
 
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    @NotNull(message = "The DDT cannot be blank!")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer DDT;
 
     public Integer getShippingId() {
@@ -97,15 +95,13 @@ public class Shipping {
 
     @Override
     public String toString() {
-        return "Shipping{" +
-                "shippingId=" + shippingId +
-                ", order_id=" + order_id +
-                ", userId=" + userId +
-                ", shippingAddress='" + shippingAddress + '\'' +
-                ", products=" + products +
-                ", status='" + status + '\'' +
-                ", DDT=" + DDT +
-                '}';
+        return "The Shipping (with id = "+ shippingId +")" + " has: " +
+                "\norder_id = " + order_id +
+                "\nuserId = " + userId +
+                "\nshippingAddress = " + shippingAddress +
+                "\nproducts = " + products +
+                "\nstatus = " + status +
+                "\nDDT =" + DDT;
     }
 
 }
