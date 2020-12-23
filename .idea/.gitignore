@@ -3,9 +3,7 @@
 /workspace.xml
 /misc.xml
 # Datasource local storage ignored files
-/../../../../../../:\Users\matte\IdeaProjects\shippingsystem\.idea/dataSources/
+/../../../../../../:\Users\matte\IdeaProjects\shippingsystem2\.idea/dataSources/
 /dataSources.local.xml
-# Zeppelin ignored files
-/ZeppelinRemoteNotebooks/
 # Editor-based HTTP Client requests
 /httpRequests/
