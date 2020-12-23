@@ -11,7 +11,7 @@ public class Shipping {
     private Integer shippingId;
 
     @NotNull(message = "The order ID cannot be blank!")
-    @Column(unique = true)
+    @Column(unique=true)
     private Integer order_id;
 
     @NotNull(message = "The user ID cannot be blank!")
@@ -22,12 +22,12 @@ public class Shipping {
 
     @NotNull(message = "The products cannot be blank!")
     @ElementCollection
-    private Map<Integer, Integer> products;
+    private Map<Integer,Integer> products;
 
     @NotNull(message = "The status cannot be blank!")
     private String status;
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer DDT;
 
     public Integer getShippingId() {
