@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
-
 import java.util.HashMap;
 import java.util.Map;
 

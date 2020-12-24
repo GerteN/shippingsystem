@@ -12,7 +12,7 @@ public class Shipping {
 
     @NotNull(message = "The order ID cannot be blank!")
     @Column(unique=true)
-    private Integer order_id;
+    private Integer orderId;
 
     @NotNull(message = "The user ID cannot be blank!")
     private Integer userId;
@@ -22,7 +22,7 @@ public class Shipping {
 
     @NotNull(message = "The products cannot be blank!")
     @ElementCollection
-    private Map<Integer, Integer> products;
+    private Map<Integer,Integer> products;
 
     @NotNull(message = "The status cannot be blank!")
     private String status;
@@ -39,12 +39,12 @@ public class Shipping {
         return this;
     }
 
-    public Integer getOrder_id() {
-        return order_id;
+    public Integer getOrderId() {
+        return orderId;
     }
 
-    public Shipping setOrder_id(Integer order_id) {
-        this.order_id = order_id;
+    public Shipping setOrderId(Integer orderId) {
+        this.orderId = orderId;
         return this;
     }
 
@@ -96,7 +96,7 @@ public class Shipping {
     @Override
     public String toString() {
         return "The Shipping (with id = "+ shippingId +")" + " has: " +
-                "\norder_id = " + order_id +
+                "\norderId = " + orderId +
                 "\nuserId = " + userId +
                 "\nshippingAddress = " + shippingAddress +
                 "\nproducts = " + products +

@@ -36,7 +36,7 @@ public class ShippingService {
     }
 
     public void updateStatus(ShippingUpdateRequest updateRequest) {
-        Optional<Shipping> shipping = repository.findByOrder_id(updateRequest.getOrder_id());
+        Optional<Shipping> shipping = repository.findByOrderId(updateRequest.getOrderId());
         if(shipping.isPresent()) {
             Shipping s = shipping.get();
             if(s.getStatus().equals("0")) {

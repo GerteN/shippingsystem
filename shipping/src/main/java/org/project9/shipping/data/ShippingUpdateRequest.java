@@ -4,15 +4,15 @@ import java.io.Serializable;
 
 public class ShippingUpdateRequest implements Serializable {
 
-    private Integer order_id;
+    private Integer orderId;
     private String status;
 
-    public Integer getOrder_id() {
-        return order_id;
+    public Integer getOrderId() {
+        return orderId;
     }
 
-    public ShippingUpdateRequest setOrder_id(Integer order_id) {
-        this.order_id = order_id;
+    public ShippingUpdateRequest setOrderId(Integer orderId) {
+        this.orderId = orderId;
         return this;
     }
 
