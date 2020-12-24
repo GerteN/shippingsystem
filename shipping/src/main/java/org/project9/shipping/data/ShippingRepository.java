@@ -10,5 +10,6 @@ public interface ShippingRepository extends PagingAndSortingRepository<Shipping,
 
     public Optional<Shipping> findByShippingIdAndUserId(Integer shippingId, Integer userId);
     public Page<Shipping> findByUserId(Integer userId, Pageable pageable);
+    public Optional<Shipping> findByOrder_id(Integer order_id);
 
 }

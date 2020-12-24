@@ -22,7 +22,7 @@ public class Shipping {
 
     @NotNull(message = "The products cannot be blank!")
     @ElementCollection
-    private Map<Integer,Integer> products;
+    private Map<Integer, Integer> products;
 
     @NotNull(message = "The status cannot be blank!")
     private String status;

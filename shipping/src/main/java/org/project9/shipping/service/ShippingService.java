@@ -1,5 +1,6 @@
 package org.project9.shipping.service;
 
+import org.project9.shipping.data.ShippingUpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +33,17 @@ public class ShippingService {
         if(repository.findByUserId(userId, pageable).isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         return repository.findByUserId(userId, pageable);
+    }
+
+    public void updateStatus(ShippingUpdateRequest updateRequest) {
+        Optional<Shipping> shipping = repository.findByOrder_id(updateRequest.getOrder_id());
+        if(shipping.isPresent()) {
+            Shipping s = shipping.get();
+            if(s.getStatus().equals("0")) {
+                s.setStatus(updateRequest.getStatus());
+                repository.save(s);
+            }
+        }
     }
 
 }
