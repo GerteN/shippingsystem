@@ -8,6 +8,7 @@ import java.util.Map;
 public class Shipping {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer shippingId;
 
     @NotNull(message = "The order ID cannot be blank!")

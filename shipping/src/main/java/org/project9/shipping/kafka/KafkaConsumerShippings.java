@@ -14,7 +14,7 @@ public class KafkaConsumerShippings {
     @Autowired
     ShippingService service;
 
-    @KafkaListener(topics = "${kafkaTopic}", groupId = "${kafkaGroup}")
+    @KafkaListener(topics = "${topicOrders}", groupId = "${kafkaGroup}")
     public void listenShippingTopic(String message) {
         if (message != null && !message.isEmpty()){
             System.out.println(message);
