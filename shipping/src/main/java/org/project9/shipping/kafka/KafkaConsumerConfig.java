@@ -43,11 +43,11 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory(){
+    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         factory.setRecordFilterStrategy(record ->
-                !record.key().equals("order_completed") && !record.key().equals("order_validation") );
+                !record.key().equals("order_completed") && !record.key().equals("order_validation"));
         return factory;
     }
 
