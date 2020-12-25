@@ -43,5 +43,11 @@ services:
     depends_on:
       - zookeper
 
+  debug-container:
+    build:
+      context: . #shippingsystem
+      dockerfile: fakeproducer/Dockerfile
+    command: exit 0
+
 volumes:
   mystorage:
