@@ -1,5 +1,6 @@
 package org.project9.shipping.service;
 
+import org.project9.shipping.data.ShippingCreateRequest;
 import org.project9.shipping.data.ShippingUpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,14 +36,26 @@ public class ShippingService {
         return repository.findByUserId(userId, pageable);
     }
 
+    public Shipping addShipping(ShippingCreateRequest shippingRequest){
+        Shipping shipping = new Shipping();
+
+        shipping.setShippingAddress(shippingRequest.getShippingAddress());
+        shipping.setOrderId(shippingRequest.getOrderId());
+        shipping.setUserId(shippingRequest.getUserId());
+        shipping.setProducts(shippingRequest.getProducts());
+
+        return repository.save(shipping);
+    }
+
     public void updateStatus(ShippingUpdateRequest updateRequest) {
         Optional<Shipping> shipping = repository.findByOrderId(updateRequest.getOrderId());
         if(shipping.isPresent()) {
             Shipping s = shipping.get();
-            if(s.getStatus().equals("0")) {
-                s.setStatus(updateRequest.getStatus());
-                repository.save(s);
-            }
+            if(updateRequest.getStatus() != 0)
+                s.setStatus("Abort");
+            else
+                s.setStatus("Ok");
+            repository.save(s);
         }
     }
 
