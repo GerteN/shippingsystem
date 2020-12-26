@@ -2,6 +2,7 @@ package org.project9.shipping.kafka;
 
 import com.google.gson.Gson;
 import org.project9.shipping.data.ShippingCreateRequest;
+import org.project9.shipping.data.ShippingUpdateInvoicing;
 import org.project9.shipping.data.ShippingUpdateRequest;
 import org.project9.shipping.service.ShippingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,14 @@ public class KafkaConsumerShippings {
                 ShippingCreateRequest createShipping = new Gson().fromJson(message, ShippingCreateRequest.class);
                 service.addShipping(createShipping);
             }
+        }
+    }
+
+    @KafkaListener(topics = "${topicInvoicing}", groupId = "${kafkaGroup}")
+    public void listenShippingInvoice(String message){
+        if (message != null && !message.isEmpty()){
+            ShippingUpdateInvoicing updateStatus = new Gson().fromJson(message, ShippingUpdateInvoicing.class);
+            service.updateStatusInvoicing(updateStatus);
         }
     }
 

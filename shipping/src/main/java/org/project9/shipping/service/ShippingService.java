@@ -1,16 +1,21 @@
 package org.project9.shipping.service;
 
+import com.google.gson.Gson;
 import org.project9.shipping.data.ShippingCreateRequest;
+import org.project9.shipping.data.ShippingUpdateInvoicing;
 import org.project9.shipping.data.ShippingUpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.project9.shipping.data.ShippingRepository;
 import shipping.Shipping;
 import javax.transaction.Transactional;
+import java.time.Instant;
 import java.util.Optional;
 
 @Service
@@ -19,6 +24,12 @@ public class ShippingService {
 
     @Autowired
     ShippingRepository repository;
+
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
+
+    @Value("${topicLogging}")
+    private String topicLogging;
 
     public Optional<Shipping> getShipping(Integer shippingId, Integer userId) {
         if(!repository.existsById(shippingId))
@@ -56,6 +67,26 @@ public class ShippingService {
             else
                 s.setStatus("Ok");
             repository.save(s);
+        }
+    }
+
+    public void updateStatusInvoicing(ShippingUpdateInvoicing updateInvoicing){
+        Optional<Shipping> shipping = repository.findByOrderIdAndUserId(updateInvoicing.getOrderId(), updateInvoicing.getUserId());
+        if(shipping.isPresent()){
+            Shipping s = shipping.get();
+            s.setStatus("TODO");
+            while(true){
+                int DDT = (int)(Math.random()*((9999-1000)+1))+1000;
+                if(!repository.findByDDT(DDT).isPresent()) {
+                    s.setDDT(DDT);
+                    repository.save(s);
+                    break;
+                }
+            }
+        }
+        else {
+            updateInvoicing.setTimestamp(Instant.now().getEpochSecond());
+            kafkaTemplate.send(topicLogging, new Gson().toJson(updateInvoicing));
         }
     }
 
