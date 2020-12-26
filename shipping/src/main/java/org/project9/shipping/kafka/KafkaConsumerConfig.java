@@ -74,7 +74,7 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactoryInvoicing(){
+    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactoryInvoicing() {
         ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(invoicingFactory());
         factory.setRecordFilterStrategy(record ->

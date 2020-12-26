@@ -69,4 +69,5 @@ public class ShippingUpdateInvoicing implements Serializable {
                 ", extraArgs='" + extraArgs + '\'' +
                 '}';
     }
+
 }

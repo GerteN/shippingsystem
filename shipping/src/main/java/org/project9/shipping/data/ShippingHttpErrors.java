@@ -4,7 +4,7 @@ public class ShippingHttpErrors {
 
      Long timestamp;
      String sourceIp;
-     String service = "Shipping";
+     String service = "shipping";
      String request;
      String error;
 
@@ -63,4 +63,5 @@ public class ShippingHttpErrors {
                 ", error='" + error + '\'' +
                 '}';
     }
+
 }

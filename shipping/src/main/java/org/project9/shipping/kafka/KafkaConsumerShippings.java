@@ -17,13 +17,13 @@ public class KafkaConsumerShippings {
 
     @KafkaListener(topics = "${topicOrders}", groupId = "${kafkaGroup}")
     public void listenShippingTopic(String message) {
-        if (message != null && !message.isEmpty()){
+        if(message != null && !message.isEmpty()) {
             System.out.println(message);
-            if(message.contains("status")){
+            if(message.contains("status")) {
                 ShippingUpdateRequest updateStatus = new Gson().fromJson(message, ShippingUpdateRequest.class);
                 service.updateStatus(updateStatus);
             }
-            else{
+            else {
                 ShippingCreateRequest createShipping = new Gson().fromJson(message, ShippingCreateRequest.class);
                 service.addShipping(createShipping);
             }
@@ -31,8 +31,8 @@ public class KafkaConsumerShippings {
     }
 
     @KafkaListener(topics = "${topicInvoicing}", groupId = "${kafkaGroup}")
-    public void listenShippingInvoice(String message){
-        if (message != null && !message.isEmpty()){
+    public void listenShippingInvoice(String message) {
+        if(message != null && !message.isEmpty()) {
             ShippingUpdateInvoicing updateStatus = new Gson().fromJson(message, ShippingUpdateInvoicing.class);
             service.updateStatusInvoicing(updateStatus);
         }
