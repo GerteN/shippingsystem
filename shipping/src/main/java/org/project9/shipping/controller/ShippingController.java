@@ -7,6 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.project9.shipping.service.ShippingService;
 import shipping.Shipping;
+
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 @Controller
@@ -18,8 +22,8 @@ public class ShippingController {
 
     @GetMapping(value="/shipping/{shippingId}")
     public @ResponseBody
-    Optional<Shipping> getShipping(@PathVariable Integer shippingId, @RequestHeader("X-User-ID") Integer userId) {
-        return service.getShipping(shippingId, userId);
+    Optional<Shipping> getShipping(@PathVariable Integer shippingId, @RequestHeader("X-User-ID") Integer userId, HttpServletResponse response, HttpServletRequest request) {
+        return service.getShipping(shippingId, userId, response, request);
     }
 
     @GetMapping(value="/shippings")
@@ -27,5 +31,6 @@ public class ShippingController {
     Page<Shipping> getAll(@RequestHeader("X-User-ID") Integer userId, Pageable pageable) {
         return service.getAll(userId, pageable);
     }
+
 
 }
