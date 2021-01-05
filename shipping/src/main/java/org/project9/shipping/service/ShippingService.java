@@ -100,6 +100,7 @@ public class ShippingService {
         shipping.setOrderId(shippingRequest.getOrderId());
         shipping.setUserId(shippingRequest.getUserId());
         shipping.setProducts(shippingRequest.getProducts());
+        shipping.setStatus("default initial");
         return repository.save(shipping);
     }
 

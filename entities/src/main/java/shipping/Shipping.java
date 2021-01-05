@@ -1,7 +1,6 @@
 package shipping;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 @Entity
@@ -11,21 +10,20 @@ public class Shipping {
     @GeneratedValue(strategy=GenerationType.TABLE)
     private Integer shippingId;
 
-    @NotNull(message = "The order ID cannot be blank!")
-    @Column(unique=true)
+    @Column(nullable = false, unique = true)
     private Integer orderId;
 
-    @NotNull(message = "The user ID cannot be blank!")
+    @Column(nullable = false)
     private Integer userId;
 
-    @NotNull(message = "The shipping address cannot be blank!")
+    @Column(nullable = false)
     private String shippingAddress;
 
-    @NotNull(message = "The products cannot be blank!")
+    @Column(nullable = false)
     @ElementCollection
     private Map<Integer,Integer> products;
 
-    @NotNull(message = "The status cannot be blank!")
+    @Column(nullable = false)
     private String status;
 
     @GeneratedValue(strategy=GenerationType.AUTO)
