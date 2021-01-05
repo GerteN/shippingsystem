@@ -7,7 +7,8 @@ import java.util.Map;
 public class Shipping {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.TABLE)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    //@SequenceGenerator(name = "shipping_seq")
     private Integer shippingId;
 
     @Column(nullable = false, unique = true)
@@ -26,8 +27,8 @@ public class Shipping {
     @Column(nullable = false)
     private String status;
 
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer DDT;
+    @OneToOne
+    private DDT DDT;
 
     public Integer getShippingId() {
         return shippingId;
@@ -40,6 +41,15 @@ public class Shipping {
 
     public Integer getOrderId() {
         return orderId;
+    }
+
+    public shipping.DDT getDDT() {
+        return DDT;
+    }
+
+    public Shipping setDDT(shipping.DDT DDT) {
+        this.DDT = DDT;
+        return this;
     }
 
     public Shipping setOrderId(Integer orderId) {
@@ -83,15 +93,6 @@ public class Shipping {
         return this;
     }
 
-    public Integer getDDT() {
-        return DDT;
-    }
-
-    public Shipping setDDT(Integer DDT) {
-        this.DDT = DDT;
-        return this;
-    }
-
     @Override
     public String toString() {
         return "The Shipping (with id = "+ shippingId +")" + " has: " +
@@ -99,8 +100,7 @@ public class Shipping {
                 "\nuserId = " + userId +
                 "\nshippingAddress = " + shippingAddress +
                 "\nproducts = " + products +
-                "\nstatus = " + status +
-                "\nDDT =" + DDT;
+                "\nstatus = " + status;
     }
 
 }

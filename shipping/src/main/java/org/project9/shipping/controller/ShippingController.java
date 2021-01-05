@@ -27,14 +27,14 @@ public class ShippingController {
 
     @GetMapping(value="/shippings")
     public @ResponseBody
-    Page<Shipping> getAll(@RequestHeader("X-User-ID") Integer userId, Pageable pageable) {
-        return service.getAll(userId, pageable);
+    Page<Shipping> getAll(@RequestHeader("X-User-ID") Integer userId, Pageable pageable, HttpServletResponse response, HttpServletRequest request) {
+        return service.getAll(userId, pageable, response, request);
     }
 
     @GetMapping(value = "/ping")
     public @ResponseBody
-    String pingAck(){
-        return service.pingAck();
+    String pingAck(@RequestHeader("X-User-ID") Integer userId, HttpServletRequest request, HttpServletResponse response){
+        return service.pingAck(userId, request, response);
     }
 
 
