@@ -31,5 +31,12 @@ public class ShippingController {
         return service.getAll(userId, pageable);
     }
 
+    @GetMapping(value = "/ping")
+    public @ResponseBody
+    String pingAck(){
+        return service.pingAck();
+    }
+
+
 
 }

@@ -135,4 +135,8 @@ public class ShippingService {
             kafkaTemplate.send(topicLogging, "shipping_unavailable", new Gson().toJson(updateInvoicing));
         }
     }
+
+    public String pingAck(){
+        return "'serviceStatus': 'up', 'dbStatus': 'up'";
+    }
 }
