@@ -26,7 +26,7 @@ public class KafkaConsumerShippings {
                 ShippingUpdateRequest updateStatus = new Gson().fromJson(message, ShippingUpdateRequest.class);
                 service.updateStatus(updateStatus);
             }
-            else if(key.equals("order_completed")){
+            else if(key.equals("order_completed")) {
                 ShippingCreateRequest createShipping = new Gson().fromJson(message, ShippingCreateRequest.class);
                 service.addShipping(createShipping);
             }

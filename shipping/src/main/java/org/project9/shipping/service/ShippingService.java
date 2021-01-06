@@ -34,17 +34,33 @@ public class ShippingService {
     @Value("${topicLogging}")
     private String topicLogging;
 
-    public Optional<Shipping> getShipping(Integer shippingId, Integer userId, HttpServletResponse response, HttpServletRequest request) {
+    //ok
+    public Optional<Shipping> getShipping(Integer shippingId, Optional<Integer> userId, HttpServletResponse response, HttpServletRequest request) {
+        if(!userId.isPresent()) {
+            sendKafkaError(Instant.now().getEpochSecond(), request.getRemoteAddr(), request.getRequestURI().concat(" ").concat(request.getMethod()), "400");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        Optional<Shipping> shipping;
         if(!repository.existsById(shippingId)) {
             sendKafkaError(Instant.now().getEpochSecond(), request.getRemoteAddr(), request.getRequestURI().concat(" ").concat(request.getMethod()), "404");
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         if(userId.equals(0))
-            return repository.findById(shippingId);
-        return Optional.ofNullable(repository.findByShippingIdAndUserId(shippingId, userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
+            shipping = repository.findById(shippingId);
+        else
+            shipping = repository.findByShippingIdAndUserId(shippingId, userId);
+        if(shipping.isEmpty()) {
+            sendKafkaError(Instant.now().getEpochSecond(), request.getRemoteAddr(), request.getRequestURI().concat(" ").concat(request.getMethod()), "404");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return shipping;
     }
 
-    public Page<Shipping> getAll(Integer userId, Pageable pageable, HttpServletResponse response, HttpServletRequest request) {
+    public Page<Shipping> getAll(Optional<Integer> userId, Pageable pageable, HttpServletResponse response, HttpServletRequest request) {
+        if(!userId.isPresent()) {
+            sendKafkaError(Instant.now().getEpochSecond(), request.getRemoteAddr(), request.getRequestURI().concat(" ").concat(request.getMethod()), "400");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
         Page<Shipping> shipping;
         if(userId.equals(0))
             shipping = repository.findAll(pageable);
@@ -59,15 +75,6 @@ public class ShippingService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         return shipping;
-    }
-
-    public void sendKafkaError(Long timestamp, String sourceIp, String request, String error){
-        ShippingHttpErrors httpErrors = new ShippingHttpErrors();
-        httpErrors.setTimestamp(timestamp);
-        httpErrors.setSourceIp(sourceIp);
-        httpErrors.setRequest(request);
-        httpErrors.setError(error);
-        kafkaTemplate.send(topicLogging, "http_errors", new Gson().toJson(httpErrors));
     }
 
     public Shipping addShipping(ShippingCreateRequest shippingRequest) {
@@ -111,11 +118,27 @@ public class ShippingService {
         }
     }
 
-    public String pingAck(Integer userId, HttpServletRequest request, HttpServletResponse response){
-        if(userId != 0){
+    //ok
+    public String pingAck(Optional<Integer> userId, HttpServletRequest request, HttpServletResponse response) {
+        if(!userId.isPresent()) {
+            sendKafkaError(Instant.now().getEpochSecond(), request.getRemoteAddr(), request.getRequestURI().concat(" ").concat(request.getMethod()), "400");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        if(userId.equals(0)) {
             sendKafkaError(Instant.now().getEpochSecond(), request.getRemoteAddr(), request.getRequestURI().concat(" ").concat(request.getMethod()), "403");
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
         return "'serviceStatus': 'up', 'dbStatus': 'up'";
     }
+
+
+    public void sendKafkaError(Long timestamp, String sourceIp, String request, String error){
+        ShippingHttpErrors httpErrors = new ShippingHttpErrors();
+        httpErrors.setTimestamp(timestamp);
+        httpErrors.setSourceIp(sourceIp);
+        httpErrors.setRequest(request);
+        httpErrors.setError(error);
+        kafkaTemplate.send(topicLogging, "http_errors", new Gson().toJson(httpErrors));
+    }
+
 }

@@ -15,6 +15,7 @@ import java.util.Map;
 
 @Configuration
 public class KafkaProducerConfig {
+
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
@@ -47,4 +48,5 @@ public class KafkaProducerConfig {
     public NewTopic logging(){
         return TopicBuilder.name(topicLogging).build();
     }
+    
 }

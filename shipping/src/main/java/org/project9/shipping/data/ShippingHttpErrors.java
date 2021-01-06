@@ -2,11 +2,11 @@ package org.project9.shipping.data;
 
 public class ShippingHttpErrors {
 
-     Long timestamp;
-     String sourceIp;
-     String service = "shipping";
-     String request;
-     String error;
+    Long timestamp;
+    String sourceIp;
+    String service = "shipping";
+    String request;
+    String error;
 
     public Long getTimestamp() {
         return timestamp;
