@@ -34,10 +34,15 @@ public class KafkaConsumerShippings {
     }
 
     @KafkaListener(topics = "${topicInvoicing}", groupId = "${kafkaGroup}")
-    public void listenShippingInvoice(String message) {
+    public void listenShippingInvoice(ConsumerRecord<String, String> record) {
+        String message = record.value();
+        String key = record.key();
         if(message != null && !message.isEmpty()) {
-            ShippingUpdateInvoicing updateStatus = new Gson().fromJson(message, ShippingUpdateInvoicing.class);
-            service.updateStatusInvoicing(updateStatus);
+            System.out.println(message);
+            if(key.equals("order_paid")) {
+                ShippingUpdateInvoicing updateStatus = new Gson().fromJson(message, ShippingUpdateInvoicing.class);
+                service.updateStatusInvoicing(updateStatus);
+            }
         }
     }
 

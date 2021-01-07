@@ -45,7 +45,7 @@ public class ShippingService {
             sendKafkaError(Instant.now().getEpochSecond(), request.getRemoteAddr(), request.getRequestURI().concat(" ").concat(request.getMethod()), "404");
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        if(userId.equals(0))
+        if(userId.get() == 0)
             shipping = repository.findById(shippingId);
         else
             shipping = repository.findByShippingIdAndUserId(shippingId, userId);
@@ -62,7 +62,7 @@ public class ShippingService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
         Page<Shipping> shipping;
-        if(userId.equals(0))
+        if(userId.get() == 0)
             shipping = repository.findAll(pageable);
         else
             shipping = repository.findByUserId(userId, pageable);
@@ -79,10 +79,10 @@ public class ShippingService {
 
     public Shipping addShipping(ShippingCreateRequest shippingRequest) {
         Shipping shipping = new Shipping();
-        shipping.setShippingAddress(shippingRequest.getShippingAddress());
         shipping.setOrderId(shippingRequest.getOrderId());
-        shipping.setUserId(shippingRequest.getUserId());
+        shipping.setShippingAddress(shippingRequest.getShippingAddress());
         shipping.setProducts(shippingRequest.getProducts());
+        shipping.setUserId(shippingRequest.getUserId());
         shipping.setStatus("default initial");
         return repository.save(shipping);
     }
@@ -124,7 +124,7 @@ public class ShippingService {
             sendKafkaError(Instant.now().getEpochSecond(), request.getRemoteAddr(), request.getRequestURI().concat(" ").concat(request.getMethod()), "400");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
-        if(userId.equals(0)) {
+        if(userId.get() != 0) {
             sendKafkaError(Instant.now().getEpochSecond(), request.getRemoteAddr(), request.getRequestURI().concat(" ").concat(request.getMethod()), "403");
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }

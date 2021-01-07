@@ -5,14 +5,9 @@ import java.io.Serializable;
 public class ShippingUpdateInvoicing implements Serializable {
 
     private Integer userId;
-
     private Integer orderId;
-
     private Double amountPaid;
-
     private Long timestamp;
-
-    private String extraArgs;
 
     public Integer getUserId() {
         return userId;
@@ -50,23 +45,13 @@ public class ShippingUpdateInvoicing implements Serializable {
         return this;
     }
 
-    public String getExtraArgs() {
-        return extraArgs;
-    }
-
-    public ShippingUpdateInvoicing setExtraArgs(String extraArgs) {
-        this.extraArgs = extraArgs;
-        return this;
-    }
-
     @Override
     public String toString() {
         return "ShippingUpdateInvoicing{" +
                 "userId=" + userId +
                 ", orderId=" + orderId +
                 ", amountPaid=" + amountPaid +
-                ", timestamp=" + timestamp +
-                ", extraArgs='" + extraArgs + '\'' +
+                ", timestamp=" + timestamp + '\'' +
                 '}';
     }
 
