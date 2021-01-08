@@ -7,7 +7,7 @@ import java.util.Map;
 public class Shipping {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     //@SequenceGenerator(name = "shipping_seq")
     private Integer shippingId;
 
@@ -27,8 +27,7 @@ public class Shipping {
     @Column(nullable = false)
     private String status;
 
-    @OneToOne
-    private DDT DDT;
+    private Integer DDT;
 
     public Integer getShippingId() {
         return shippingId;
@@ -43,11 +42,11 @@ public class Shipping {
         return orderId;
     }
 
-    public shipping.DDT getDDT() {
+    public Integer getDDT() {
         return DDT;
     }
 
-    public Shipping setDDT(shipping.DDT DDT) {
+    public Shipping setDDT(Integer DDT) {
         this.DDT = DDT;
         return this;
     }

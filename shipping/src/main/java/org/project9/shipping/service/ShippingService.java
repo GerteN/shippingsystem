@@ -13,7 +13,6 @@ import org.springframework.web.server.ResponseStatusException;
 import shipping.DDT;
 import shipping.Shipping;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.Optional;
@@ -34,8 +33,7 @@ public class ShippingService {
     @Value("${topicLogging}")
     private String topicLogging;
 
-    //ok
-    public Optional<Shipping> getShipping(Integer shippingId, Optional<Integer> userId, HttpServletResponse response, HttpServletRequest request) {
+    public Optional<Shipping> getShipping(Integer shippingId, Optional<Integer> userId, HttpServletRequest request) {
         if(!userId.isPresent()) {
             sendKafkaError(Instant.now().getEpochSecond(), request.getRemoteAddr(), request.getRequestURI().concat(" ").concat(request.getMethod()), "400");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
@@ -56,7 +54,7 @@ public class ShippingService {
         return shipping;
     }
 
-    public Page<Shipping> getAll(Optional<Integer> userId, Pageable pageable, HttpServletResponse response, HttpServletRequest request) {
+    public Page<Shipping> getAll(Optional<Integer> userId, Pageable pageable, HttpServletRequest request) {
         if(!userId.isPresent()) {
             sendKafkaError(Instant.now().getEpochSecond(), request.getRemoteAddr(), request.getRequestURI().concat(" ").concat(request.getMethod()), "400");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
@@ -77,49 +75,45 @@ public class ShippingService {
         return shipping;
     }
 
-    public Shipping addShipping(ShippingCreateRequest shippingRequest) {
+    public void addShipping(ShippingCreateRequest shippingRequest) {
         Shipping shipping = new Shipping();
         shipping.setOrderId(shippingRequest.getOrderId());
         shipping.setShippingAddress(shippingRequest.getShippingAddress());
         shipping.setProducts(shippingRequest.getProducts());
         shipping.setUserId(shippingRequest.getUserId());
-        shipping.setStatus("default initial");
-        return repository.save(shipping);
+        shipping.setStatus("Default initial");
+        repository.save(shipping);
     }
 
     public void updateStatus(ShippingUpdateRequest updateRequest) {
         Optional<Shipping> shipping = repository.findByOrderId(updateRequest.getOrderId());
-        if(shipping.isPresent()) {
-            Shipping s = shipping.get();
-            if(updateRequest.getStatus() != 0)
-                s.setStatus("Abort");
-            else
-                s.setStatus("Ok");
-            repository.save(s);
-        }
+        Shipping s = shipping.get();
+        if(updateRequest.getStatus() != 0)
+            s.setStatus("Abort");
+        else
+            s.setStatus("Ok");
+        repository.save(s);
     }
 
     public void updateStatusInvoicing(ShippingUpdateInvoicing updateInvoicing) {
         Optional<Shipping> shipping = repository.findByOrderIdAndUserId(updateInvoicing.getOrderId(), updateInvoicing.getUserId());
-        if(shipping.isPresent()) {
-            Shipping s = shipping.get();
-            s.setStatus("TODO");
-            DDT ddt = new DDT();
-            ddtRepository.save(ddt);
-
-            DDT Ddt = ddtRepository.findTopByOrderByIdDesc().get();
-            System.out.println(Ddt);
-            if(Ddt != null)
-                s.setDDT(Ddt);
-        }
-        else {
+        if(!shipping.isPresent()) {
             updateInvoicing.setTimestamp(Instant.now().getEpochSecond());
             kafkaTemplate.send(topicLogging, "shipping_unavailable", new Gson().toJson(updateInvoicing));
+        } else {
+            Shipping s = shipping.get();
+            s.setStatus("TODO");
+
+            //da sistemare metodi find, volendo
+            DDT ddt = ddtRepository.findFirstByOrderBySeqDesc().get();
+            ddt.setSeq(ddtRepository.findFirstByOrderBySeqDesc().get().getSeq() + 1);
+            ddtRepository.save(ddt);
+            System.out.println(ddt.getSeq());
+            s.setDDT(ddt.getSeq());
         }
     }
 
-    //ok
-    public String pingAck(Optional<Integer> userId, HttpServletRequest request, HttpServletResponse response) {
+    public String pingAck(Optional<Integer> userId, HttpServletRequest request) {
         if(!userId.isPresent()) {
             sendKafkaError(Instant.now().getEpochSecond(), request.getRemoteAddr(), request.getRequestURI().concat(" ").concat(request.getMethod()), "400");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
@@ -132,7 +126,7 @@ public class ShippingService {
     }
 
 
-    public void sendKafkaError(Long timestamp, String sourceIp, String request, String error){
+    public void sendKafkaError(Long timestamp, String sourceIp, String request, String error) {
         ShippingHttpErrors httpErrors = new ShippingHttpErrors();
         httpErrors.setTimestamp(timestamp);
         httpErrors.setSourceIp(sourceIp);

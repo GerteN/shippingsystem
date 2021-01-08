@@ -6,9 +6,8 @@ import javax.persistence.*;
 public class DDT {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE)
-    //@SequenceGenerator(name = "ddt_seq")
     private Integer id;
+    private Integer seq;
 
     public Integer getId() {
         return id;
@@ -19,10 +18,20 @@ public class DDT {
         return this;
     }
 
+    public Integer getSeq() {
+        return seq;
+    }
+
+    public DDT setSeq(Integer seq) {
+        this.seq = seq;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "DDT{" +
                 "id=" + id +
+                ", seq=" + seq +
                 '}';
     }
 

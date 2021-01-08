@@ -6,6 +6,6 @@ import java.util.Optional;
 
 public interface DDTRepository extends CrudRepository<DDT, Integer> {
 
-    public Optional<DDT> findTopByOrderByIdDesc();
+    public Optional<DDT> findFirstByOrderBySeqDesc();
 
 }

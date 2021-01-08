@@ -6,6 +6,7 @@ public class ShippingUpdateRequest implements Serializable {
 
     private Integer status;
     private Integer orderId;
+    private Long timestamp;
 
     public Integer getStatus() {
         return status;
@@ -25,11 +26,21 @@ public class ShippingUpdateRequest implements Serializable {
         return this;
     }
 
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
+    public ShippingUpdateRequest setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "ShippingUpdateRequest{" +
                 "status=" + status +
                 ", orderId=" + orderId +
+                ", timestamp=" + timestamp +
                 '}';
     }
 
