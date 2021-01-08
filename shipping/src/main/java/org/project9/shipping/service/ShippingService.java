@@ -120,7 +120,6 @@ public class ShippingService {
         return "'serviceStatus': 'up', 'dbStatus': 'up'";
     }
 
-
     public void sendKafkaError(Long timestamp, String sourceIp, String request, String error) {
         ShippingHttpErrors httpErrors = new ShippingHttpErrors();
         httpErrors.setTimestamp(timestamp);
