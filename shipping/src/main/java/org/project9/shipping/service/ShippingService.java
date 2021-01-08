@@ -64,11 +64,7 @@ public class ShippingService {
             shipping = repository.findAll(pageable);
         else
             shipping = repository.findByUserId(userId, pageable);
-        if(shipping.getTotalPages() < pageable.getPageNumber()+1) {
-            sendKafkaError(Instant.now().getEpochSecond(), request.getRemoteAddr(), request.getRequestURI().concat(" ").concat(request.getMethod()), "400");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
-        else if(shipping.isEmpty()) {
+        if((shipping.getTotalPages() < pageable.getPageNumber()+1) || shipping.isEmpty()) {
             sendKafkaError(Instant.now().getEpochSecond(), request.getRemoteAddr(), request.getRequestURI().concat(" ").concat(request.getMethod()), "404");
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
