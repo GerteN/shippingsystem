@@ -30,8 +30,6 @@ public class ShippingErrorHandling extends AbstractHandlerExceptionResolver {
     @ExceptionHandler(Exception.class)
     @Override
     protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
-        System.out.println(response.getStatus());
-        System.out.println(response.getStatus());
         ShippingHttpErrors httpErrors = new ShippingHttpErrors();
         httpErrors.setTimestamp(Instant.now().getEpochSecond());
         httpErrors.setSourceIp(request.getRemoteAddr());
