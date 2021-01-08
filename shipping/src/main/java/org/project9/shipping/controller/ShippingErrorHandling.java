@@ -10,22 +10,19 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Instant;
 
-
 @Component
 public class ShippingErrorHandling extends AbstractHandlerExceptionResolver {
+
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
     @Value("${topicLogging}")
     private String topicLogging;
-
-
 
     @ExceptionHandler(Exception.class)
     @Override
@@ -44,4 +41,5 @@ public class ShippingErrorHandling extends AbstractHandlerExceptionResolver {
         String accept = request.getHeader(HttpHeaders.ACCEPT);
         return new ModelAndView();
     }
+
 }

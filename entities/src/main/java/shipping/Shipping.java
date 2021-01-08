@@ -8,7 +8,6 @@ public class Shipping {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    //@SequenceGenerator(name = "shipping_seq")
     private Integer shippingId;
 
     @Column(nullable = false, unique = true)
