@@ -32,7 +32,7 @@ public class ShippingErrorHandling extends AbstractHandlerExceptionResolver {
         httpErrors.setSourceIp(request.getRemoteAddr());
         httpErrors.setRequest(request.getRequestURI().concat(" ").concat(request.getMethod()));
         httpErrors.setError(ex.toString());
-        kafkaTemplate.send(topicLogging, new Gson().toJson(httpErrors));
+        kafkaTemplate.send(topicLogging,"http_errors", new Gson().toJson(httpErrors));
         return null;
     }
 
