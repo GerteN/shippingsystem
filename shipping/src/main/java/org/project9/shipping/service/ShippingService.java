@@ -103,13 +103,12 @@ public class ShippingService {
         } else {
             Shipping s = shipping.get();
             s.setStatus("TODO");
-
-            //da sistemare metodi find, volendo
-            DDT ddt = ddtRepository.findFirstByOrderBySeqDesc().get();
-            ddt.setSeq(ddtRepository.findFirstByOrderBySeqDesc().get().getSeq() + 1);
-            ddtRepository.save(ddt);
-            System.out.println(ddt.getSeq());
-            s.setDDT(ddt.getSeq());
+            if(s.getDDT() == null) {
+                DDT ddt = ddtRepository.findById(1).get();
+                ddt.setSeq(ddt.getSeq() + 1);
+                ddtRepository.save(ddt);
+                s.setDDT(ddt.getSeq());
+            }
         }
     }
 
