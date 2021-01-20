@@ -29,7 +29,7 @@ public class ShippingController {
         return service.getAll(userId, pageable, request);
     }
 
-    @GetMapping(value = "/ping")
+    @GetMapping(value="/ping")
     public @ResponseBody
     String pingAck(@RequestHeader("X-User-ID") Optional<Integer> userId, HttpServletRequest request) {
         return service.pingAck(userId, request);
